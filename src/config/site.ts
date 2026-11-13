@@ -1,0 +1,63 @@
+/**
+ * Single source of truth for business data.
+ *
+ * Every value comes from the client hub in Notion, the Google Business Profile
+ * (checked 2026-11-12) or the client's current website. Anything not confirmed
+ * stays null/false and is listed in PENDING_CLIENT_APPROVAL.md. Never add claims
+ * (licenses, ratings in schema, hours, address) without written confirmation.
+ */
+
+export const SITE = {
+  name: 'Krystal Clear Services',
+  legalName: 'Krystal Clear Services, Corp.',
+  shortName: 'Krystal Clear',
+  url: (import.meta.env.SITE as string | undefined)?.replace(/\/$/, '') ?? 'https://krystalclearny.com',
+  locale: 'en-US',
+  owner: 'Liza Chamorro',
+  /**
+   * PENDING: Google Business Profile and the current site show 631-759-8442;
+   * the Notion client sheet lists 631-334-7242 as the work phone.
+   * Change it here only — every page, button and schema reads from this object.
+   */
+  phone: {
+    display: '(631) 759-8442',
+    e164: '+16317598442',
+    href: 'tel:+16317598442',
+    sms: 'sms:+16317598442',
+  },
+  /** PENDING: confirm the public email (site shows info@, Notion shows Gmail). */
+  email: 'info@krystalclearny.com',
+  baseCity: 'Huntington Station',
+  region: 'Long Island, New York',
+  social: {
+    facebook: 'https://www.facebook.com/krystalclearservicesny/',
+    instagram: 'https://www.instagram.com/krystalclearsc',
+  },
+  listings: {
+    google: 'https://maps.google.com/?cid=71417083433304240',
+    bbb: 'https://www.bbb.org/us/ny/huntington-station/profile/cleaning-services/krystal-clear-services-corp-0121-87176211',
+  },
+  /** Online request form already in use (Jobber). Secondary to call/text. */
+  jobberForm:
+    'https://clienthub.getjobber.com/client_hubs/3132e29a-4074-42e1-af2f-eaf6d6c19b0e/public/work_request/embedded_work_request_form',
+
+  /** 20 years of experience: Notion client sheet + current site. */
+  yearsExperience: 20,
+  /** Google rating as seen on 2026-11-12. Shown as text only, never as schema. */
+  googleRating: { value: '5.0', count: 34, checked: '2026-11-12' },
+  /** Attributes shown on the Google Business Profile. */
+  attributes: ['Women-owned', 'Latino-owned'],
+  /** "Background-checked and fully insured" is stated on the client's current site. PENDING written confirmation. */
+  insuredAndChecked: true,
+
+  /* ---- Pending confirmation: keep null until validated ---- */
+  /** 24 Melville Rd N, Huntington Station, NY 11746 is in Notion and Angi, but the GBP hides it. Not published. */
+  address: null as null | { streetAddress: string; addressLocality: string; addressRegion: string; postalCode: string },
+  openingHours: null as null | string[],
+} as const;
+
+export const ENV = {
+  /** Only true on the production deploy (see netlify.toml). */
+  indexable: import.meta.env.SITE_INDEXABLE === 'true' || process.env.SITE_INDEXABLE === 'true',
+  ga4Id: (import.meta.env.PUBLIC_GA4_ID || '') as string,
+};

@@ -1,0 +1,28 @@
+---
+/** Fixed bottom bar on phones: the two channels clients actually use. */
+import Icon from './Icon.astro';
+import { SITE } from '@/config/site';
+---
+<div class="mbar" aria-label="Contact Krystal Clear">
+  <a class="mbar__a mbar__call" href={SITE.phone.href} data-track="call-mobilebar"><Icon name="phone" />Call</a>
+  <a class="mbar__a" href={SITE.phone.sms} data-track="sms-mobilebar"><Icon name="message" />Text us</a>
+  <a class="mbar__a" href="/contact/" data-track="quote-mobilebar"><Icon name="clipboard" />Quote</a>
+</div>
+
+<style>
+  .mbar { display: none; }
+  @media (max-width: 760px) {
+    .mbar {
+      position: fixed; inset: auto 10px calc(10px + env(safe-area-inset-bottom)) 10px; z-index: 40;
+      display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 6px; padding: 6px;
+      background: rgb(11 34 68 / 0.94); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-radius: 22px; box-shadow: 0 16px 40px -16px rgb(11 34 68 / 0.7);
+    }
+    .mbar__a { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; border-radius: 16px; color: var(--white); font-weight: 550; text-decoration: none; font-size: 0.95rem; }
+    .mbar__a :global(svg) { width: 18px; height: 18px; }
+    .mbar__call { background: var(--white); color: var(--ink); }
+    .mbar__a:hover { color: var(--white); background: rgb(255 255 255 / 0.1); }
+    .mbar__call:hover { color: var(--ink); background: var(--sky); }
+    :global(body) { padding-bottom: 86px; }
+  }
+</style>

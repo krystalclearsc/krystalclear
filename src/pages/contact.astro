@@ -1,0 +1,99 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import AnimIcon from '@/components/AnimIcon.astro';
+import Icon from '@/components/Icon.astro';
+import { SITE } from '@/config/site';
+
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Contact', href: '/contact/' }];
+const jobberId = '3132e29a-4074-42e1-af2f-eaf6d6c19b0e';
+---
+<BaseLayout
+  title="Contact Krystal Clear | Free Cleaning Estimate, Huntington NY"
+  description={`Call or text ${SITE.phone.display} for a free cleaning estimate in Huntington, Commack, Northport and nearby Long Island towns, or send a request online.`}
+  path="/contact/"
+  breadcrumbs={crumbs.slice(1)}
+  pageType="ContactPage"
+>
+  <PageHero crumbs={crumbs} label="Contact" h1="Get a free cleaning estimate" answer={`The fastest way to reach Krystal Clear is to call or text ${SITE.phone.display}. Tell us your town, the size of your home or office and the service you need, and we'll give you a clear, free estimate.`} />
+
+  <section class="section channels" aria-label="Ways to contact us">
+    <div class="wrap ch__grid">
+      <a class="ch__card ch__card--main ai-host liquid" href={SITE.phone.href} data-track="call-contact">
+        <AnimIcon name="phone" size={56} tone="light" />
+        <span class="ch__k">Call</span><span class="ch__v">{SITE.phone.display}</span><span class="ch__note">Fastest answer</span>
+      </a>
+      <a class="ch__card ai-host" href={SITE.phone.sms} data-track="sms-contact">
+        <AnimIcon name="spray" size={52} />
+        <span class="ch__k">Text</span><span class="ch__v">{SITE.phone.display}</span><span class="ch__note">Send photos of the space if you like</span>
+      </a>
+      <a class="ch__card ai-host" href={`mailto:${SITE.email}`} data-track="email-contact">
+        <AnimIcon name="clipboard" size={52} />
+        <span class="ch__k">Email</span><span class="ch__v ch__v--sm">{SITE.email}</span><span class="ch__note">For detailed requests</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section form cv" aria-labelledby="form-title">
+    <div class="wrap form__grid">
+      <div>
+        <p class="label">Online request</p>
+        <h2 id="form-title" data-split>Prefer a <em>form?</em></h2>
+        <p class="lead">Send your request through our booking system and we'll get back to you with an estimate.</p>
+        <ul class="form__list">
+          <li><Icon name="check" />Your town and address</li>
+          <li><Icon name="check" />Size of the home or office</li>
+          <li><Icon name="check" />Service you need and preferred dates</li>
+        </ul>
+      </div>
+      <div class="form__box">
+        <div id={jobberId} data-jobber-form></div>
+        <noscript><p>Our request form needs JavaScript. Call or text {SITE.phone.display} instead.</p></noscript>
+        <p class="form__fallback muted">The form loads when you scroll here. Trouble? Call or text <a href={SITE.phone.href}>{SITE.phone.display}</a>.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<!-- Jobber's form is third-party: load it only when the visitor reaches it (keeps the page fast). -->
+<script is:inline define:vars={{ jobberId, formUrl: SITE.jobberForm }}>
+  (function () {
+    var box = document.querySelector('[data-jobber-form]');
+    if (!box) return;
+    var load = function () {
+      var css = document.createElement('link');
+      css.rel = 'stylesheet'; css.href = 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css';
+      document.head.appendChild(css);
+      var s = document.createElement('script');
+      s.src = 'https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js';
+      s.setAttribute('clienthub_id', jobberId);
+      s.setAttribute('form_url', formUrl);
+      box.parentNode.insertBefore(s, box.nextSibling);
+    };
+    if (!('IntersectionObserver' in window)) return load();
+    var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: '400px' });
+    io.observe(box);
+  })();
+</script>
+
+<style>
+  .ch__grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 16px; }
+  .ch__card { display: grid; gap: 6px; align-content: end; min-height: 260px; padding: 28px; border-radius: 26px; border: 1px solid var(--line); background: var(--white); color: var(--ink); text-decoration: none; transition: transform .4s var(--ease); }
+  .ch__card:hover { transform: translateY(-4px); color: var(--ink); }
+  .ch__card--main { border: 0; color: var(--white); border-radius: 4px 26px 26px 26px; }
+  .ch__card--main:hover { color: var(--white); }
+  .ch__card :global(.ai) { margin-bottom: auto; }
+  .ch__k { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; margin-top: 30px; }
+  .ch__v { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1.05; }
+  .ch__v--sm { font-size: clamp(1.3rem, 2vw, 1.6rem); word-break: break-word; }
+  .ch__note { font-size: 0.9rem; opacity: 0.8; }
+  .form { background: var(--paper); }
+  .form__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 80px); align-items: start; }
+  .form h2 { margin: 18px 0; }
+  .form__list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 10px; }
+  .form__list li { display: flex; gap: 10px; align-items: center; }
+  .form__list :global(svg) { width: 20px; height: 20px; color: var(--steel); }
+  .form__box { background: var(--white); border-radius: 26px; padding: clamp(18px, 3vw, 32px); border: 1px solid var(--line); min-height: 420px; }
+  .form__fallback { margin-top: 14px; font-size: 0.875rem; }
+  @media (max-width: 860px) { .ch__grid, .form__grid { grid-template-columns: 1fr; } .ch__card { min-height: 0; } }
+</style>

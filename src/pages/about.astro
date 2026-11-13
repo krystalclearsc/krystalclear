@@ -1,0 +1,97 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import AnimIcon from '@/components/AnimIcon.astro';
+import Photo from '@/components/Photo.astro';
+import ReviewCards from '@/components/ReviewCards.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { SITE } from '@/config/site';
+import { abs, ORG_ID } from '@/lib/schema';
+
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'About Liza', href: '/about/' }];
+const person = { '@type': 'Person', '@id': abs('/about/#liza'), name: SITE.owner, jobTitle: 'Owner', worksFor: { '@id': ORG_ID }, image: abs('/icon-512.png') };
+const values = [
+  { icon: 'key', t: 'Trusted in your home', d: 'Background-checked and insured. Many clients give us a key or garage code and go about their day.' },
+  { icon: 'sparkles', t: 'A higher standard of clean', d: 'Meticulous and detail-oriented, with a quality check at the end of every service.' },
+  { icon: 'leaf', t: 'Safe for the whole family', d: 'Environmentally conscious products that are safe for kids and pets are available on request.' },
+  { icon: 'heart', t: 'Local and accountable', d: 'We are your neighbors in the Town of Huntington, committed to the community and to you.' },
+] as const;
+---
+<BaseLayout
+  title="About Liza Chamorro & Krystal Clear Services | Huntington, NY"
+  description={`Meet Liza Chamorro, owner of Krystal Clear Services: a women- and Latino-owned cleaning company in Huntington Station, NY, with ${SITE.yearsExperience}+ years of experience.`}
+  path="/about/"
+  breadcrumbs={crumbs.slice(1)}
+  pageType="AboutPage"
+  schema={[person]}
+>
+  <PageHero crumbs={crumbs} label="About" h1="Meet Liza Chamorro and Krystal Clear" answer={`Krystal Clear Services is a women- and Latino-owned cleaning company based in Huntington Station, NY, led by owner Liza Chamorro. For more than ${SITE.yearsExperience} years, Liza and her team have cleaned homes and businesses across Huntington and Long Island's North Shore.`} photo="liza" photoAlt="Liza Chamorro, owner of Krystal Clear Services" />
+
+  <section class="section story">
+    <div class="wrap story__grid">
+      <div>
+        <p class="label">Our story</p>
+        <h2 data-split>Two decades of <em>trust</em></h2>
+      </div>
+      <div class="story__text">
+        <p>Liza Chamorro has spent more than 20 years cleaning Long Island homes and businesses. In their Google reviews, her clients keep coming back to the same words: reliable, thorough, trustworthy, honest.</p>
+        <p>Some families have trusted Liza with their homes for 18 years. A real estate agent who has worked with her for almost as long recommends Krystal Clear for whole-house deep cleans and uses the team for maintenance cleaning at home. Office clients describe the crew as professional, detail-oriented and friendly.</p>
+        <p>Today the team serves homes and businesses from Huntington Station to Commack, Northport and nearby towns, with recurring house cleaning, deep cleaning, move-in/move-out, post-construction and commercial cleaning.</p>
+        <p class="story__pending">[PENDING Liza: founding year, how she started, team size and a personal quote.]</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section values liquid cv" aria-labelledby="values-title">
+    <div class="wrap">
+      <p class="label">What we stand for</p>
+      <h2 id="values-title" data-split>The Krystal Clear <em>difference</em></h2>
+      <ul class="values__grid">
+        {values.map((v) => (<li class="ai-host"><AnimIcon name={v.icon} size={46} tone="light" /><h3>{v.t}</h3><p>{v.d}</p></li>))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section team cv" aria-labelledby="team-title">
+    <div class="wrap team__grid">
+      <div class="team__photos">
+        <div class="team__ph"><Photo slug="stairsDusting" alt="Krystal Clear cleaner dusting a staircase banister" sizes="(max-width: 860px) 45vw, 22vw" widths={[360, 540]} /></div>
+        <div class="team__ph team__ph--b"><Photo slug="showerScrub" alt="Krystal Clear cleaner scrubbing a stone shower" sizes="(max-width: 860px) 45vw, 22vw" widths={[360, 540]} /></div>
+      </div>
+      <div>
+        <p class="label">The team</p>
+        <h2 id="team-title" data-split>Trained, insured, <em>background-checked</em></h2>
+        <p class="lead">We are not just a crew; we are a team of trained, background-checked and insured cleaning professionals who take pride in their work, in the Krystal Clear uniform you see in every photo on this site.</p>
+        <ul class="team__chips">{SITE.attributes.map((a) => <li>{a}</li>)}<li>{SITE.yearsExperience}+ years</li><li>Based in {SITE.baseCity}</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cv"><div class="wrap"><p class="label">Reviews</p><h2 data-split>Clients on <em>Liza</em></h2><div class="ab__cards"><ReviewCards names={['Kim B.', 'Michele P.', 'Nicole P.']} /></div></div></section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .story__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 80px); }
+  .story h2 { margin-top: 18px; }
+  .story__text { display: grid; gap: 18px; font-size: 1.12rem; }
+  .story__pending { font-size: 0.9rem; color: var(--muted); border: 1px dashed var(--line-strong); padding: 10px 14px; border-radius: 10px; }
+  .values h2 { margin: 18px 0 36px; }
+  .values__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .values__grid li { padding: 26px; border-radius: 20px; background: rgb(255 255 255 / 0.12); border: 1px solid rgb(255 255 255 / 0.25); }
+  .values__grid h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.6rem; margin: 14px 0 8px; }
+  .values__grid p { color: rgb(255 255 255 / 0.9); font-size: 0.97rem; }
+  .team__grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
+  .team h2 { margin: 18px 0; }
+  .team__photos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .team__ph { aspect-ratio: 3 / 4.4; border-radius: 22px 4px 22px 22px; overflow: hidden; }
+  .team__ph--b { margin-top: 48px; border-radius: 4px 22px 22px 22px; }
+  .team__ph :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .team__chips { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .team__chips li { padding: 8px 14px; border-radius: 999px; background: var(--ice); font-size: 0.88rem; font-weight: 550; }
+  .ab__cards { margin-top: 28px; }
+  @media (max-width: 980px) { .values__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 860px) { .story__grid, .team__grid { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .values__grid { grid-template-columns: 1fr; } }
+</style>

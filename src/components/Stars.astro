@@ -1,0 +1,12 @@
+---
+/** Five filled stars in Google's review yellow — one SVG, five paths. */
+interface Props { size?: number; label?: string }
+const { size = 16, label = '5 out of 5 stars' } = Astro.props;
+const star = 'm12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z';
+---
+<svg class="stars" width={size * 5 + 4} height={size} viewBox="0 0 124 24" role="img" aria-label={label}>
+  {[0, 1, 2, 3, 4].map((i) => <path fill="#FBBC04" d={star} transform={`translate(${i * 25} 0)`} />)}
+</svg>
+<style>
+  .stars { display: inline-block; vertical-align: middle; }
+</style>

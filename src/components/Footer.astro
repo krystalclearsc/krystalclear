@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import logoWhite from '@/assets/brand/logo-white.png';
+import Icon from './Icon.astro';
+import { SITE } from '@/config/site';
+import { services, serviceHref } from '@/data/services';
+import { areas, areaHref } from '@/data/areas';
+const year = new Date().getFullYear();
+---
+<footer class="ftr on-dark">
+  <div class="wrap ftr__grid">
+    <div class="ftr__brand">
+      <Image src={logoWhite} alt="" width={64} height={58} />
+      <p class="ftr__name">{SITE.name}</p>
+      <p class="muted">House and office cleaning led by {SITE.owner}. {SITE.yearsExperience}+ years serving Huntington and Long Island's North Shore.</p>
+      <p class="ftr__nap">
+        <a href={SITE.phone.href} data-track="call-footer"><Icon name="phone" />{SITE.phone.display}</a>
+        <a href={`mailto:${SITE.email}`} data-track="email-footer"><Icon name="mail" />{SITE.email}</a>
+        <span><Icon name="pin" />Based in {SITE.baseCity}, NY</span>
+      </p>
+    </div>
+    <nav aria-label="Services" class="ftr__col">
+      <p class="label">Services</p>
+      <ul>{services.map((s) => <li><a href={serviceHref(s)}>{s.name}</a></li>)}</ul>
+    </nav>
+    <nav aria-label="Service areas" class="ftr__col">
+      <p class="label">Areas</p>
+      <ul>{areas.filter((a) => a.core).map((a) => <li><a href={areaHref(a)}>{a.name}</a></li>)}<li><a href="/service-areas/">All areas</a></li></ul>
+    </nav>
+    <nav aria-label="Company" class="ftr__col">
+      <p class="label">Company</p>
+      <ul>
+        <li><a href="/about/">About Liza</a></li>
+        <li><a href="/contact/">Contact and quotes</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+        <li><a href={SITE.listings.google} rel="noopener">Google reviews</a></li>
+        <li><a href={SITE.listings.bbb} rel="noopener">BBB profile</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="wrap ftr__base">
+    <p>© {year} {SITE.legalName}</p>
+    <p class="ftr__social">
+      <a href={SITE.social.facebook} rel="noopener"><Icon name="facebook" label="Krystal Clear on Facebook" /></a>
+      <a href={SITE.social.instagram} rel="noopener"><Icon name="instagram" label="Krystal Clear on Instagram" /></a>
+    </p>
+    <p class="ftr__legal">
+      <button type="button" class="ftr__motion" data-motion-toggle aria-pressed="false"><span data-motion-label>Pause motion</span></button>
+      <a href="/privacy-policy/">Privacy policy</a>
+    </p>
+    <p class="ftr__credit">Photo of Northport Dock by Fife Club, <a href="https://commons.wikimedia.org/w/index.php?curid=4578562" rel="noopener">Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by/3.0/" rel="noopener">CC BY 3.0</a> (cropped).</p>
+  </div>
+</footer>
+
+<style>
+  .ftr { padding: clamp(64px, 8vw, 104px) 0 28px; }
+  .ftr__grid { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 40px; }
+  .ftr__name { font-family: var(--font-display); font-size: 2rem; margin: 18px 0 8px; line-height: 1.05; }
+  .ftr__brand .muted { max-width: 30em; }
+  .ftr__nap { display: grid; gap: 10px; margin-top: 22px; }
+  .ftr__nap a, .ftr__nap span { display: inline-flex; align-items: center; gap: 10px; color: var(--white); text-decoration: none; }
+  .ftr__nap :global(svg) { width: 18px; height: 18px; color: var(--sky); }
+  .ftr__nap a:hover { color: var(--sky); }
+  .ftr__col ul { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 4px; }
+  .ftr__col a { display: inline-block; padding: 5px 0; color: rgb(255 255 255 / 0.86); text-decoration: none; }
+  .ftr__col a:hover { color: var(--white); text-decoration: underline; }
+  .ftr__base { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--line-light); font-size: 0.9rem; color: rgb(255 255 255 / 0.72); }
+  .ftr__base a { color: rgb(255 255 255 / 0.86); }
+  .ftr__social { display: flex; gap: 6px; }
+  .ftr__social a { display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid var(--line-light); color: var(--white); }
+  .ftr__social :global(svg) { width: 18px; height: 18px; }
+  .ftr__legal { display: flex; gap: 18px; align-items: center; }
+  .ftr__motion { background: none; border: 1px solid var(--line-light); color: rgb(255 255 255 / 0.86); border-radius: 999px; min-height: 40px; padding: 0 16px; font: inherit; cursor: pointer; }
+  .ftr__motion:hover { border-color: var(--white); color: var(--white); }
+  .ftr__credit { flex-basis: 100%; font-size: 0.8rem; color: rgb(255 255 255 / 0.6); }
+  @media (max-width: 900px) { .ftr__grid { grid-template-columns: 1fr 1fr; } .ftr__brand { grid-column: 1 / -1; } }
+  @media (max-width: 480px) { .ftr__grid { grid-template-columns: 1fr; } }
+</style>

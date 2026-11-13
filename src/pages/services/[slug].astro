@@ -1,0 +1,218 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import AnimIcon from '@/components/AnimIcon.astro';
+import Icon from '@/components/Icon.astro';
+import Faq from '@/components/Faq.astro';
+import ReviewCards from '@/components/ReviewCards.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { SITE } from '@/config/site';
+import { services, serviceHref } from '@/data/services';
+import { servicePages } from '@/data/service-pages';
+import { areas, areaHref } from '@/data/areas';
+import { abs, serviceNode, faqNode } from '@/lib/schema';
+import { photos } from '@/data/photos';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug } }));
+}
+const { slug } = Astro.params;
+const svc = services.find((s) => s.slug === slug)!;
+const page = servicePages[slug!];
+const path = serviceHref(svc);
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Services', href: '/services/' }, { name: svc.name, href: path }];
+
+type IconName = 'home' | 'heart' | 'key' | 'sparkles' | 'calendar' | 'box' | 'building' | 'hammer';
+const whoIcons: Record<string, IconName[]> = {
+  'house-cleaning': ['home', 'heart', 'key'],
+  'deep-cleaning': ['sparkles', 'home', 'calendar'],
+  'move-in-move-out-cleaning': ['box', 'key', 'building'],
+  'post-construction-cleaning': ['hammer', 'home', 'building'],
+  'commercial-cleaning': ['building', 'building', 'sparkles'],
+};
+const steps = [
+  { icon: 'phone', t: 'Call or text', d: `Reach us at ${SITE.phone.display} and tell us what needs cleaning.` },
+  { icon: 'clipboard', t: 'Free estimate', d: 'We ask about size, condition and timing, then give you a clear price.' },
+  { icon: 'spray', t: 'We clean', d: 'Our insured, background-checked crew follows the checklist on this page.' },
+  { icon: 'sparkles', t: 'Quality check', d: 'Every service includes a quality check before we leave.' },
+] as const;
+const related = page.related.map((r) => services.find((s) => s.slug === r)!).filter(Boolean);
+---
+<BaseLayout
+  title={page.title}
+  description={page.description}
+  path={path}
+  breadcrumbs={crumbs.slice(1)}
+  schema={[serviceNode({ name: svc.name, description: page.answer, url: abs(path), image: abs(photos[svc.photo].src) }), faqNode(page.faq)]}
+>
+  <PageHero crumbs={crumbs} label={`Service · ${svc.audience}`} h1={page.h1} answer={page.answer} photo={svc.photo} photoAlt={svc.photoAlt} />
+
+  <section class="section intro">
+    <div class="wrap intro__grid">
+      <div class="intro__text">
+        <p class="label">About this service</p>
+        <h2 class="intro__h" data-split>What to <em>expect</em></h2>
+        {page.intro.map((p) => <p class="intro__p">{p}</p>)}
+      </div>
+      <ul class="who">
+        {page.forWho.map((w, i) => (
+          <li class="who__card ai-host spot">
+            <AnimIcon name={whoIcons[slug!][i]} size={46} />
+            <h3>{w.title}</h3>
+            <p class="muted">{w.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section incl cv" aria-labelledby="incl-title">
+    <div class="wrap">
+      <p class="label">What's included</p>
+      <h2 id="incl-title" data-split>Our {svc.short.toLowerCase()} <em>checklist</em></h2>
+      <div class="incl__grid">
+        {page.included.map((g, i) => (
+          <div class:list={['incl__tile', i === 0 && 'liquid incl__tile--feature']}>
+            <span class="incl__n">0{i + 1}</span>
+            <h3>{g.group}</h3>
+            <ul>{g.items.map((it) => <li><Icon name="check" />{it}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section how on-dark cv" aria-labelledby="how-title">
+    <div class="wrap">
+      <p class="label">How it works</p>
+      <h2 id="how-title" data-split>Four steps, <em>no surprises</em></h2>
+      <ol class="how__list">
+        {steps.map((s, i) => (
+          <li class="ai-host"><AnimIcon name={s.icon} size={44} tone="light" /><span class="how__n">0{i + 1}</span><h3>{s.t}</h3><p>{s.d}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section price cv" aria-labelledby="price-title">
+    <div class="wrap price__grid">
+      <div>
+        <p class="label">Pricing</p>
+        <h2 id="price-title" data-split>What sets the <em>price</em></h2>
+        <p class="lead">Every estimate is free and given before we start. These are the things we ask about:</p>
+        <ol class="price__list">{page.priceFactors.map((f) => <li>{f}</li>)}</ol>
+      </div>
+      <aside class="price__card ai-host" aria-label="Get an estimate">
+        <AnimIcon name="clipboard" size={56} />
+        <p class="price__title">Get your free estimate</p>
+        <p class="muted">Call or text and tell us the size of your space and what you need.</p>
+        <a class="btn" href={SITE.phone.href} data-track="call-price"><Icon name="phone" />Call {SITE.phone.display}</a>
+        <a class="btn btn--ghost" href={SITE.phone.sms} data-track="sms-price"><Icon name="message" />Text us</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section revs cv" aria-labelledby="revs-title">
+    <div class="wrap">
+      <p class="label">Reviews</p>
+      <h2 id="revs-title" data-split>What clients <em>say</em></h2>
+      <div class="revs__cards"><ReviewCards count={3} /></div>
+    </div>
+  </section>
+
+  <section class="section faqs cv" aria-labelledby="faqs-title">
+    <div class="wrap faqs__grid">
+      <div>
+        <p class="label">Questions</p>
+        <h2 id="faqs-title" data-split>{svc.short} <em>FAQ</em></h2>
+        <a class="link-arrow faqs__all" href="/faq/">All questions <Icon name="arrow" /></a>
+      </div>
+      <Faq items={page.faq} />
+    </div>
+  </section>
+
+  <section class="section links" aria-label="Areas and related services">
+    <div class="wrap links__grid">
+      <div>
+        <p class="label">Where we offer it</p>
+        <ul class="chips">
+          {areas.map((a) => (<li>{a.page ? <a href={areaHref(a)}>{a.name}</a> : <span>{a.name}</span>}</li>))}
+        </ul>
+      </div>
+      <div>
+        <p class="label">Related services</p>
+        <ul class="rel">
+          {related.map((r) => (<li><a href={serviceHref(r)} class="rel__a"><span>{r.name}</span><Icon name="arrow-up-right" /></a></li>))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title={`Ready to book ${svc.short.toLowerCase()}?`} />
+</BaseLayout>
+
+<style>
+  .intro__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 80px); align-items: start; }
+  .intro__h { margin-top: 18px; }
+  .intro__p { margin-top: 18px; font-size: 1.1rem; color: var(--ink); }
+  .who { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .who__card { position: relative; overflow: hidden; display: grid; grid-template-columns: 54px 1fr; column-gap: 16px; align-items: start; padding: 22px; border: 1px solid var(--line); border-radius: 20px; background: var(--white); }
+  .who__card > * { position: relative; z-index: 1; }
+  .who__card :global(.ai) { grid-row: span 2; }
+  .who__card h3 { font-size: 1.1rem; }
+  .who__card:nth-child(2) { border-radius: 4px 20px 20px 20px; background: var(--ice); }
+
+  .incl { background: var(--paper); }
+  .incl h2 { margin: 18px 0 40px; }
+  .incl__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .incl__tile { padding: 28px; border-radius: 22px; background: var(--white); border: 1px solid var(--line); }
+  .incl__tile--feature { border: 0; grid-row: span 2; display: flex; flex-direction: column; justify-content: flex-end; min-height: 320px; border-radius: 4px 22px 22px 22px; }
+  .incl__tile:nth-child(3) { border-radius: 22px 22px 4px 22px; }
+  .incl__n { font-family: var(--font-display); font-size: 1.3rem; color: var(--steel-deep); }
+  .incl__tile--feature .incl__n { color: var(--sky); }
+  .incl__tile h3 { font-family: var(--font-display); font-weight: 400; font-size: 2rem; line-height: 1.05; margin: 6px 0 16px; }
+  .incl__tile ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .incl__tile li { display: flex; gap: 10px; align-items: flex-start; }
+  .incl__tile li :global(svg) { width: 20px; height: 20px; flex: none; margin-top: 3px; color: var(--steel); }
+  .incl__tile--feature li :global(svg) { color: var(--white); }
+  @media (min-width: 861px) { .incl__grid { grid-template-columns: 1.1fr 1fr 1fr; } .incl__tile:nth-child(4) { grid-column: span 2; } }
+
+  .how h2 { margin: 18px 0 44px; }
+  .how__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .how__list li { padding: 26px; border-radius: 20px; border: 1px solid var(--line-light); background: rgb(255 255 255 / 0.04); }
+  .how__n { display: block; margin-top: 16px; font-family: var(--font-display); color: var(--sky); font-size: 1.2rem; }
+  .how__list h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.7rem; margin: 4px 0 8px; }
+  .how__list p { color: rgb(255 255 255 / 0.8); }
+
+  .price__grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
+  .price h2 { margin: 18px 0; }
+  .price__list { margin: 26px 0 0; padding: 0; list-style: none; counter-reset: p; display: grid; gap: 10px; }
+  .price__list li { counter-increment: p; display: flex; gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
+  .price__list li::before { content: counter(p, decimal-leading-zero); font-family: var(--font-display); color: var(--steel-deep); font-size: 1.3rem; }
+  .price__card { display: grid; gap: 14px; justify-items: start; padding: 32px; border-radius: 28px 4px 28px 28px; background: var(--ice); }
+  .price__card .btn { width: 100%; }
+  .price__title { font-family: var(--font-display); font-size: 2rem; line-height: 1.05; }
+
+  .revs { background: var(--paper); }
+  .revs h2 { margin: 18px 0 28px; }
+  .faqs__grid { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: clamp(32px, 6vw, 80px); }
+  .faqs h2 { margin: 18px 0 18px; }
+  .links { padding-top: 0; }
+  .links__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; border-top: 1px solid var(--line); padding-top: 48px; }
+  .chips { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips a, .chips span { display: inline-block; padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: 0.92rem; color: var(--ink); text-decoration: none; }
+  .chips a { background: var(--ice); border-color: transparent; font-weight: 550; }
+  .chips a:hover { background: var(--ink); color: var(--white); }
+  .chips span { color: var(--muted); }
+  .rel { list-style: none; margin: 18px 0 0; padding: 0; border-top: 1px solid var(--line); }
+  .rel__a { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--line); font-family: var(--font-display); font-size: 1.6rem; color: var(--ink); text-decoration: none; }
+  .rel__a :global(svg) { width: 22px; height: 22px; color: var(--steel-deep); transition: transform .3s var(--ease); }
+  .rel__a:hover :global(svg) { transform: translate(3px, -3px); }
+
+  @media (max-width: 980px) { .how__list { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 860px) {
+    .intro__grid, .price__grid, .faqs__grid, .links__grid { grid-template-columns: 1fr; }
+    .incl__tile--feature { min-height: 0; grid-row: auto; }
+  }
+  @media (max-width: 560px) { .how__list { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,58 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { homeFaq } from '@/data/faq';
+import { servicePages } from '@/data/service-pages';
+import { services, serviceHref } from '@/data/services';
+import { faqNode } from '@/lib/schema';
+import { SITE } from '@/config/site';
+
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'FAQ', href: '/faq/' }];
+const groups = [
+  { title: 'General', items: homeFaq },
+  ...services.map((s) => ({ title: s.name, href: serviceHref(s), items: servicePages[s.slug].faq })),
+];
+const seen = new Set<string>();
+const all = groups.flatMap((g) => g.items).filter((f) => (seen.has(f.q) ? false : (seen.add(f.q), true)));
+const shown = new Set<string>();
+const dedup = groups.map((g) => ({ ...g, items: g.items.filter((f) => (shown.has(f.q) ? false : (shown.add(f.q), true))) }));
+---
+<BaseLayout
+  title="Cleaning FAQ: Services, Areas & Quotes | Krystal Clear NY"
+  description={`Answers about Krystal Clear's house, deep, move-out, post-construction and office cleaning on Long Island: areas, insurance, quotes and more. ${SITE.phone.display}.`}
+  path="/faq/"
+  breadcrumbs={crumbs.slice(1)}
+  schema={[{ ...faqNode(all), '@id': `${SITE.url}/faq/#faq` }]}
+>
+  <PageHero crumbs={crumbs} label="FAQ" h1="Frequently asked questions" answer={`Short, direct answers about Krystal Clear's cleaning services in Huntington, Commack, Northport and nearby Long Island towns. Don't see your question? Call or text ${SITE.phone.display}.`} />
+  <section class="section">
+    <div class="wrap fq">
+      <nav class="fq__nav" aria-label="FAQ topics">
+        <ul>{dedup.map((g, i) => <li><a href={`#topic-${i}`}>{g.title}</a></li>)}</ul>
+      </nav>
+      <div class="fq__groups">
+        {dedup.map((g, i) => (
+          <section id={`topic-${i}`} class="fq__group" aria-labelledby={`topic-${i}-t`}>
+            <h2 id={`topic-${i}-t`} class="fq__title">{g.title}</h2>
+            <Faq items={g.items} openFirst={i === 0} />
+            {'href' in g && g.href && <a class="link-arrow fq__more" href={g.href}>About {g.title.toLowerCase()}</a>}
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+<style>
+  .fq { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: clamp(32px, 6vw, 80px); }
+  .fq__nav { position: sticky; top: calc(var(--header-h) + 40px); align-self: start; }
+  .fq__nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; border-left: 2px solid var(--line); }
+  .fq__nav a { display: block; padding: 8px 16px; color: var(--muted); text-decoration: none; font-weight: 500; }
+  .fq__nav a:hover { color: var(--ink); background: var(--ice); }
+  .fq__groups { display: grid; gap: 56px; }
+  .fq__title { font-size: clamp(1.9rem, 3vw, 2.6rem); margin-bottom: 20px; }
+  .fq__more { margin-top: 16px; }
+  @media (max-width: 860px) { .fq { grid-template-columns: 1fr; } .fq__nav { position: static; } .fq__nav ul { display: flex; flex-wrap: wrap; border: 0; gap: 8px; } .fq__nav a { border-radius: 999px; background: var(--ice); padding: 8px 14px; color: var(--ink); } }
+</style>

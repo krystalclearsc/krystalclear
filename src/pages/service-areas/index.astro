@@ -1,0 +1,81 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Icon from '@/components/Icon.astro';
+import AnimIcon from '@/components/AnimIcon.astro';
+import Photo from '@/components/Photo.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { areas, areaHref } from '@/data/areas';
+import { areaPages } from '@/data/area-pages';
+import { SITE } from '@/config/site';
+
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Service areas', href: '/service-areas/' }];
+const suffolk = areas.filter((a) => a.county === 'Suffolk');
+const nassau = areas.filter((a) => a.county === 'Nassau');
+---
+<BaseLayout
+  title="House Cleaning in Suffolk County, NY | Krystal Clear"
+  description={`Krystal Clear cleans homes and offices across Suffolk County and nearby Nassau towns, from Huntington Station to Northport and Commack. Call ${SITE.phone.display}.`}
+  path="/service-areas/"
+  breadcrumbs={crumbs.slice(1)}
+>
+  <PageHero crumbs={crumbs} label="Service areas" h1="House cleaning in Suffolk County and the North Shore" answer={`Krystal Clear is based in ${SITE.baseCity}, NY, and cleans homes and businesses in Huntington, Huntington Station, Commack and Northport, plus nearby Suffolk and Nassau towns such as Dix Hills, Melville, Smithtown and Syosset.`} />
+
+  <section class="section main-areas cv" aria-labelledby="main-title">
+    <div class="wrap">
+      <p class="label">Main areas</p>
+      <h2 id="main-title" data-split>Where we clean <em>most</em></h2>
+      <ul class="ma__grid">
+        {areas.filter((a) => a.page).map((a, i) => (
+          <li>
+            <a href={areaHref(a)} class="ma__card ai-host">
+              <div class="ma__photo"><Photo slug={a.slug === 'northport' ? 'northportDock' : i === 0 ? 'vacuumFoyer' : 'kitchen'} alt="" sizes="(max-width: 860px) 92vw, 30vw" widths={[480, 720]} /></div>
+              <div class="ma__body">
+                <AnimIcon name="pin" size={36} />
+                <h3>{a.name}, NY</h3>
+                <p class="muted">{areaPages[a.slug].answer.split(':')[0]}.</p>
+                <span class="link-arrow">Cleaning in {a.name} <Icon name="arrow" /></span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section all liquid cv" aria-labelledby="all-title">
+    <div class="wrap all__grid">
+      <div>
+        <p class="label">All towns</p>
+        <h2 id="all-title" data-split>Also serving <em>nearby towns</em></h2>
+        <p class="all__text">Not on the list? Text us your town and we'll confirm right away.</p>
+        <a class="btn btn--light" href={SITE.phone.sms} data-track="sms-areas-hub"><Icon name="message" />Text us your town</a>
+      </div>
+      <div class="all__cols">
+        <div><p class="all__county">Suffolk County</p><ul>{suffolk.map((a) => <li>{a.page ? <a href={areaHref(a)}>{a.name}</a> : a.name}</li>)}</ul></div>
+        <div><p class="all__county">Nassau County</p><ul>{nassau.map((a) => <li>{a.name}</li>)}</ul></div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .main-areas h2 { margin: 18px 0 36px; }
+  .ma__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .ma__card { display: grid; height: 100%; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); color: var(--ink); text-decoration: none; background: var(--white); transition: transform .4s var(--ease); }
+  .ma__card:hover { transform: translateY(-4px); color: var(--ink); }
+  .ma__photo { aspect-ratio: 16 / 11; overflow: hidden; }
+  .ma__photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .ma__body { display: grid; gap: 10px; padding: 24px; }
+  .ma__body h3 { font-family: var(--font-display); font-weight: 400; font-size: 2rem; line-height: 1.05; }
+  .all__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 80px); align-items: start; }
+  .all h2 { margin: 18px 0; }
+  .all__text { font-size: 1.1rem; margin-bottom: 26px; }
+  .all__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .all__county { font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.8rem; color: var(--sky); }
+  .all__cols ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; font-family: var(--font-display); font-size: 1.5rem; }
+  .all__cols a { color: var(--white); text-decoration-color: var(--sky); }
+  @media (max-width: 860px) { .ma__grid, .all__grid { grid-template-columns: 1fr; } }
+</style>
