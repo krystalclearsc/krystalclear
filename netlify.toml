@@ -6,9 +6,12 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Only production is indexable. Previews and branch deploys get noindex + Disallow.
+# Indexing stays OFF until the domain krystalclearny.com points to this site
+# (the old WordPress site is still live there). On launch day: set this to "true",
+# check the 301s in public/_redirects live, then submit the sitemap in Search Console.
+# Previews and branch deploys always get noindex + Disallow.
 [context.production.environment]
-  SITE_INDEXABLE = "true"
+  SITE_INDEXABLE = "false"
 [context.deploy-preview.environment]
   SITE_INDEXABLE = "false"
 [context.branch-deploy.environment]
