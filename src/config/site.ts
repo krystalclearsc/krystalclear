@@ -56,8 +56,18 @@ export const SITE = {
   openingHours: null as null | string[],
 } as const;
 
+/**
+ * Indexing:
+ * - SITE_INDEXABLE=true/false (build variable) always wins.
+ * - Otherwise, Cloudflare Workers Builds of the `main` branch are indexable (production),
+ *   other branches are not, and local builds are not.
+ * The temporary *.workers.dev address is never indexed anyway (X-Robots-Tag in public/_headers),
+ * so production can be indexable before the domain is connected.
+ */
+const forced = process.env.SITE_INDEXABLE ?? import.meta.env.SITE_INDEXABLE;
+const ciBranch = process.env.WORKERS_CI_BRANCH || process.env.CF_PAGES_BRANCH;
+
 export const ENV = {
-  /** Only true when the build env var SITE_INDEXABLE=true (Cloudflare → Settings → Build → Variables), set on launch day. */
-  indexable: import.meta.env.SITE_INDEXABLE === 'true' || process.env.SITE_INDEXABLE === 'true',
+  indexable: forced !== undefined && forced !== '' ? forced === 'true' : ciBranch === 'main',
   ga4Id: (import.meta.env.PUBLIC_GA4_ID || '') as string,
 };

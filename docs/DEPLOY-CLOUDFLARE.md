@@ -15,7 +15,7 @@ Basado en el SOP probado con Nekoblue: Notion → HELICE → SEO → 02 — Oper
 1. En **esa cuenta**: **Workers & Pages → Create → Import a repository** → autorizar solo el GitHub `krystalclearsc` → repositorio `krystalclearsc/krystalclear`.
 2. Nombre del proyecto: `krystalclear-website` (el mismo que en `wrangler.jsonc`).
 3. Rama `main` · build command `npm run build` · deploy command `npx wrangler deploy`.
-4. **No crear** la variable `SITE_INDEXABLE` todavía: sin ella la web sale con `noindex` y un `robots.txt` que bloquea todo. Así la URL temporal `*.workers.dev` no compite con la web vieja.
+4. No hace falta ninguna variable: los builds de `main` en Cloudflare salen **indexables** (producción) y los de otras ramas con `noindex`. La URL temporal `*.workers.dev` nunca se indexa (`X-Robots-Tag: noindex` en `public/_headers`), así que no compite con la web vieja. Para apagar la indexación en una emergencia: variable de build `SITE_INDEXABLE=false`.
 5. Abrir la URL `krystalclear-website.<cuenta>.workers.dev` y revisarla: 16 páginas, formulario de Jobber en `/contact/`, 404 propio.
 
 Archivos que lo hacen posible: `wrangler.jsonc` (assets en `./dist`, 404 real, barra final), `public/_headers` (caché, seguridad y `noindex` para `*.workers.dev` / `*.pages.dev`), `public/_redirects` (301 desde la web vieja) y `.node-version` (Node 22).
@@ -28,7 +28,6 @@ Archivos que lo hacen posible: `wrangler.jsonc` (assets en `./dist`, 404 real, b
 5. **Workers & Pages → krystalclear-website → Domains → Add Domain**: la raíz (subdominio vacío, Production) y `www` (Production).
 6. Namecheap → Domain List → Manage → Nameservers → **Custom DNS** → los dos nameservers que asigne Cloudflare. Esperar a "Your domain is now protected by Cloudflare".
 7. **Redirect Rule** (al revés que en Nekoblue, porque aquí manda la versión sin www): `https://www.krystalclearny.com/*` → `https://krystalclearny.com/${1}` · 301 · conservar query string.
-8. **Settings → Build → Variables**: `SITE_INDEXABLE = true` → Retry deployment.
 
 ## 3. Comprobar en vivo el mismo día
 ```bash
