@@ -1,0 +1,91 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Icon from '@/components/Icon.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { guides, guideHref } from '@/data/guides';
+import { services, serviceHref } from '@/data/services';
+import { photos } from '@/data/photos';
+import { abs, articleNode, faqNode } from '@/lib/schema';
+
+export function getStaticPaths() {
+  return guides.map((g) => ({ params: { slug: g.slug } }));
+}
+const { slug } = Astro.params;
+const g = guides.find((x) => x.slug === slug)!;
+const path = guideHref(g);
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Guides', href: '/resources/' }, { name: g.h1, href: path }];
+const svc = services.find((s) => s.slug === g.service)!;
+const others = guides.filter((x) => x.slug !== g.slug);
+---
+<BaseLayout
+  title={g.title}
+  description={g.description}
+  path={path}
+  breadcrumbs={crumbs.slice(1)}
+  schema={[articleNode({ url: abs(path), headline: g.h1, description: g.description, image: abs(photos[g.photo].src), datePublished: g.published, dateModified: g.updated }), faqNode(g.faq)]}
+>
+  <PageHero crumbs={crumbs} label="Guide" h1={g.h1} answer={g.answer} photo={g.photo} photoAlt={g.photoAlt} updated={g.updated} />
+
+  <article class="section guide">
+    <div class="wrap guide__grid">
+      <div class="guide__body">
+        {g.sections.map((s) => (
+          <section class="guide__sec">
+            <h2>{s.h2}</h2>
+            <p class="lead">{s.lead}</p>
+            {s.list && <ul class="guide__list">{s.list.map((it) => <li><Icon name="check" />{it}</li>)}</ul>}
+            {s.table && (
+              <div class="guide__table" role="region" aria-label={s.h2} tabindex="0">
+                <table>
+                  <thead><tr>{s.table.head.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+                  <tbody>{s.table.rows.map((r) => <tr>{r.map((c, i) => (i === 0 ? <th scope="row">{c}</th> : <td>{c}</td>))}</tr>)}</tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        ))}
+        <section class="guide__sec">
+          <h2>Questions</h2>
+          <Faq items={g.faq} />
+        </section>
+      </div>
+      <aside class="guide__side">
+        <div class="guide__card liquid">
+          <p class="label">Need it done?</p>
+          <p class="guide__card-t">{svc.name}</p>
+          <p>{svc.summary}</p>
+          <a class="btn btn--light" href={serviceHref(svc)}>See the service <Icon name="arrow" /></a>
+        </div>
+        <p class="label guide__more">More guides</p>
+        <ul class="guide__others">{others.map((o) => <li><a href={guideHref(o)}>{o.h1}</a></li>)}</ul>
+      </aside>
+    </div>
+  </article>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .guide__grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: clamp(32px, 6vw, 80px); align-items: start; }
+  .guide__body { display: grid; gap: 52px; }
+  .guide__sec h2 { font-size: clamp(1.9rem, 3.4vw, 2.8rem); margin-bottom: 14px; }
+  .guide__list { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px; }
+  .guide__list li { display: flex; gap: 12px; align-items: flex-start; padding: 14px 18px; border-radius: 14px; background: var(--paper); border: 1px solid var(--line); }
+  .guide__list :global(svg) { width: 20px; height: 20px; flex: none; margin-top: 3px; color: var(--steel); }
+  .guide__table { margin-top: 22px; overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; }
+  table { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 0.95rem; }
+  th, td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  thead th { background: var(--ink); color: var(--white); font-weight: 550; }
+  tbody th { font-weight: 600; color: var(--steel-deep); background: var(--paper); }
+  tbody tr:last-child > * { border-bottom: 0; }
+  .guide__side { position: sticky; top: calc(var(--header-h) + 40px); display: grid; gap: 14px; }
+  .guide__card { padding: 26px; border-radius: 22px 4px 22px 22px; display: grid; gap: 12px; justify-items: start; }
+  .guide__card-t { font-family: var(--font-display); font-size: 2rem; line-height: 1.05; }
+  .guide__more { margin-top: 18px; }
+  .guide__others { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .guide__others a { display: block; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; font-weight: 500; }
+  .guide__others a:hover { color: var(--steel-deep); }
+  @media (max-width: 960px) { .guide__grid { grid-template-columns: 1fr; } .guide__side { position: static; } }
+</style>

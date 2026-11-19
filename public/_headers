@@ -1,0 +1,26 @@
+# Cloudflare headers (replaces the [[headers]] blocks of netlify.toml)
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/media/*
+  Cache-Control: public, max-age=2592000
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-Frame-Options: SAMEORIGIN
+
+# Never index Cloudflare preview addresses (*.workers.dev / *.pages.dev); only krystalclearny.com is indexed.
+https://:sub.workers.dev/*
+  X-Robots-Tag: noindex
+
+https://:project.:sub.workers.dev/*
+  X-Robots-Tag: noindex
+
+https://:version-:project.:sub.workers.dev/*
+  X-Robots-Tag: noindex
+
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex

@@ -80,6 +80,22 @@ export function serviceNode(opts: { name: string; description: string; url: stri
   };
 }
 
+export function articleNode(opts: { url: string; headline: string; description: string; image: string; datePublished: string; dateModified: string }) {
+  return {
+    '@type': 'Article',
+    '@id': opts.url + '#article',
+    mainEntityOfPage: opts.url,
+    headline: opts.headline,
+    description: opts.description,
+    image: opts.image,
+    datePublished: opts.datePublished,
+    dateModified: opts.dateModified,
+    inLanguage: SITE.locale,
+    author: { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },
+  };
+}
+
 export function faqNode(items: { q: string; a: string }[]) {
   return {
     '@type': 'FAQPage',

@@ -1,50 +1,58 @@
 # Palabras clave — Krystal Clear (validadas, sin inventar)
 
-**Fecha:** 2026-11-12 · **Fuente:** autocompletado de Google (EE. UU., inglés) + búsquedas en Maps + títulos de la competencia.
-**Límite:** el autocompletado demuestra que **la gente busca esa frase**, pero no dice cuánto. El volumen se confirma con Keyword Planner y con Search Console cuando tengamos acceso. Revisar este archivo después de 4–8 semanas con datos reales de GSC.
+**Última revisión:** 2026-11-19 (primera: 2026-11-12).
+**Fuente:** autocompletado de **Google** y **Bing** (EE. UU., inglés), búsquedas en Maps y títulos de la competencia. Bing importa porque es el índice que usan ChatGPT y Copilot.
+**Límite:** el autocompletado prueba que la gente busca la frase, no cuánto la busca. El volumen se confirma con Search Console y Keyword Planner cuando la web esté publicada (revisar a las 4–8 semanas).
 
-> ⚠️ "Huntington" a secas se confunde con Huntington Beach (CA), Huntington (WV) y Huntington (IN). En titles y H1 siempre va **"Huntington, NY"**.
+> ⚠️ "Huntington" a secas se confunde con Huntington Beach (CA), Huntington (WV) e Indiana. En titles y H1 siempre **"Huntington, NY"**. "Northport" también existe en Alabama, así que siempre **"Northport, NY"**.
 
-## Frases que Google confirma (aparecen en el autocompletado)
+## 1. Búsquedas locales confirmadas
 
-| Frase | Evidencia |
-| --- | --- |
-| house cleaning huntington ny | ✅ autocompletado |
-| house cleaning services huntington ny | ✅ |
-| house cleaners huntington ny | ✅ |
-| cleaning service(s) huntington ny | ✅ |
-| home cleaning services huntington ny | ✅ |
-| cleaning services huntington station | ✅ (salen nombres de competidores: Romero, Go Perfect) |
-| house cleaning commack | ✅ |
-| house cleaning northport · cleaning service northport ny | ✅ |
-| house cleaning suffolk county (ny) · house cleaning services suffolk county ny | ✅ |
-| home cleaning services long island · house cleaning long island ny | ✅ |
-| deep cleaning long island · deep cleaning services long island · deep house cleaning long island | ✅ |
-| move in cleaning long island · move in cleaning service long island | ✅ |
-| post construction cleaning long island · post construction cleaning services long island | ✅ |
-| commercial cleaning long island · commercial cleaning services long island · long island office cleaning | ✅ |
-| maid service long island | ✅ (sinónimo; solo en el texto) |
-
-## Sin señal (no se crean páginas para estas frases por ahora)
-deep cleaning huntington · move out cleaning huntington · post construction cleaning huntington · office cleaning huntington ny · commercial cleaning huntington · cleaning service commack ny · house cleaning dix hills · melville · syosset · smithtown · cold spring harbor · airbnb cleaning huntington.
-→ Esas ciudades siguen en la lista de zonas, pero sin página propia hasta que haya datos (GSC) o Liza confirme que quiere crecer ahí.
-
-## Asignación: una palabra principal por página (sin canibalización)
-
-| Página | Palabra principal | Secundarias / sinónimos |
+| Zona | Frases que salen (Google/Bing) | Página |
 | --- | --- | --- |
-| `/` | cleaning services Huntington NY | house cleaners Huntington NY, home cleaning services Huntington NY |
-| `/services/house-cleaning/` | house cleaning Huntington NY | house cleaning services Huntington NY, recurring / weekly / biweekly |
+| Huntington, NY | house cleaning · house cleaning services · house cleaners · cleaning service(s) · home cleaning services · executive cleaning services | `/` y `/services/house-cleaning/` |
+| Huntington Station | cleaning services huntington station (salen Romero y Go Perfect) | `/service-areas/huntington-station/` |
+| Melville ⭐ nueva | house cleaning melville · house cleaners melville · cleaning service(s) melville ny · cleaning company melville | `/service-areas/melville/` |
+| Smithtown ⭐ nueva | cleaning service smithtown ny · cleaning services smithtown · cleaning lady smithtown | `/service-areas/smithtown/` |
+| Commack | house cleaning commack · cleaning service commack · home cleaners commack | `/service-areas/commack/` |
+| Northport | house cleaning northport · cleaning service northport ny | `/service-areas/northport/` |
+| Elwood | house cleaning elwood · house cleaners elwood · cleaning service(s) elwood | **No hay página:** Liza no la lista como zona. Preguntarle |
+| Dix Hills | cleaning service dix hills (débil) | Sin página por ahora |
+| Suffolk County | house cleaning (services) suffolk county ny · suffolk county house cleaning services · cleaning services long island suffolk county | `/service-areas/` |
+| Long Island | house cleaning services long island ny · deep house cleaning long island · deep cleaning services long island · move in cleaning (service) long island · post construction cleaning (services) long island · commercial cleaning services long island · long island office cleaning · maid service long island · home cleaning service long island · cleaning company long island | Páginas de servicio |
+
+**Sin señal (no se crean páginas):** East Northport, Greenlawn, Centerport, Cold Spring Harbor, Lloyd Harbor, South Huntington, Syosset, Woodbury, Kings Park.
+
+**Demanda que existe pero falta confirmar con Liza:** window cleaning long island, carpet cleaning long island, power washing long island, pressure washing long island. Si los hace, cada uno merece su página (la web vieja los tenía).
+
+## 2. Sinónimos del rubro (que estén en el texto)
+house cleaning · house cleaners · maid service · home cleaning · cleaning lady · cleaning company · cleaning service(s) · janitorial · office cleaning · commercial cleaning · recurring / weekly / every other week / monthly.
+Desde el 2026-11-19 todos aparecen en la web: "maid service", "house cleaners" y "home cleaning" en la home y en House cleaning; "cleaning lady" en House cleaning y Smithtown.
+
+## 3. Preguntas reales → guías AEO (`/resources/`)
+| Pregunta que sale en el autocompletado | Dónde se responde |
+| --- | --- |
+| difference between deep cleaning and regular cleaning (house) · difference between deep cleaning and move out cleaning · what is included in a deep clean of a house · is deep cleaning worth it | `/resources/deep-cleaning-vs-regular-cleaning/` (con tabla comparativa) |
+| move out cleaning checklist · for tenants · for landlords | `/resources/move-out-cleaning-checklist/` |
+| what is post construction cleaning · post construction cleaning checklist · what is post renovation cleaning | `/resources/post-construction-cleaning-checklist/` |
+| office cleaning checklist | `/resources/office-cleaning-checklist/` |
+| should you be home when cleaners come | FAQ de la home y de /faq/ |
+| how much does house cleaning / a deep clean / move out cleaning cost | Se responde **qué define el precio**, sin cifras. Con precios reales de Liza se puede hacer una guía de precios (muy buscada) |
+| how to find a good house cleaner · do you tip house cleaners | Posibles guías futuras (requieren la política real de Liza) |
+
+## 4. Una palabra principal por página (sin canibalización)
+| Página | Principal | Secundarias |
+| --- | --- | --- |
+| `/` | cleaning services Huntington NY | house cleaners, maid service, home cleaning services Huntington NY |
+| `/services/house-cleaning/` | house cleaning Huntington NY | house cleaning services, maid service, cleaning lady, weekly/biweekly/monthly |
 | `/services/deep-cleaning/` | deep cleaning services Long Island | deep house cleaning Long Island |
 | `/services/move-in-move-out-cleaning/` | move in cleaning Long Island | move out cleaning, move in move out cleaning service |
 | `/services/post-construction-cleaning/` | post construction cleaning Long Island | post construction cleaning services Long Island |
 | `/services/commercial-cleaning/` | commercial cleaning services Long Island | office cleaning Long Island, janitorial |
-| `/service-areas/` | house cleaning Suffolk County NY | Long Island North Shore |
+| `/service-areas/` | house cleaning Suffolk County NY | cleaning services Long Island Suffolk County |
 | `/service-areas/huntington-station/` | cleaning services Huntington Station | |
-| `/service-areas/commack/` | house cleaning Commack | |
-| `/service-areas/northport/` | house cleaning Northport | cleaning service Northport NY |
-| `/service-areas/huntington/` | se cubre desde `/` y `/services/house-cleaning/`, así que no hay página aparte para evitar canibalización | |
-
-## Preguntas informativas (fase 2, `/resources/`)
-Salen del autocompletado: "deep cleaning checklist", "deep cleaning a house list", "how much does it cost to get your home cleaned", "how much is house cleaning per hour", "move in move out cleaning prices", "what is post construction cleaning", "how long does it take a cleaner to clean a house".
-Los artículos de precio **solo con precios reales que confirme Liza**.
+| `/service-areas/melville/` | house cleaning Melville NY | cleaning company / office cleaning Melville |
+| `/service-areas/smithtown/` | house cleaning service Smithtown NY | cleaning lady Smithtown |
+| `/service-areas/commack/` | house cleaning Commack | home cleaners Commack |
+| `/service-areas/northport/` | house cleaning Northport NY | cleaning service Northport NY |
+| Guías | la pregunta exacta de cada una | — |

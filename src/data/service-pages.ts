@@ -28,7 +28,7 @@ export const servicePages: Record<string, ServicePage> = {
     title: 'House Cleaning in Huntington, NY | Krystal Clear',
     description: `Recurring house cleaning in Huntington, NY: weekly, every-other-week or monthly. Insured, background-checked crew led by Liza. Call or text ${phone}.`,
     h1: 'House cleaning in Huntington, NY',
-    answer: `Krystal Clear provides recurring house cleaning in Huntington, NY and nearby Long Island towns: weekly, every-other-week or monthly visits that cover bedrooms, kitchen, bathrooms and living areas, done by Liza Chamorro's insured, background-checked team.`,
+    answer: `Krystal Clear is a house cleaning and maid service in Huntington, NY. Our house cleaners visit weekly, every other week or monthly and clean bedrooms, kitchen, bathrooms and living areas; the team is led by Liza Chamorro and is insured and background-checked.`,
     intro: [
       'Most of our clients are busy families who would rather spend their weekends together than scrubbing bathrooms. We build a cleaning plan around your home, your schedule and your standards, then follow the same room-by-room checklist on every visit so you always know what you are getting.',
       `Some of our house cleaning clients have been with Liza for 18 years. That kind of trust comes from the same crew showing up on time, doing the job right and respecting your privacy and your space.`,
@@ -50,6 +50,7 @@ export const servicePages: Record<string, ServicePage> = {
       { q: 'Who leads the cleaning team?', a: 'Krystal Clear is owned and led by Liza Chamorro, who has cleaned Long Island homes for more than 20 years. Many clients mention her by name in their reviews.' },
       { q: 'Do you bring your own supplies?', a: 'Yes, our crew arrives with professional supplies. If you prefer specific or green products, tell us and we will use them.' },
       { q: 'How do I get a price?', a: `Call or text ${phone}. We ask about your home's size, how often you want cleaning and its condition, then give you a clear, free estimate.` },
+      { q: 'Is a maid service the same as hiring a cleaning lady?', a: 'It covers the same work, with a company behind it: our house cleaners are background-checked and insured, follow a set checklist, and Krystal Clear handles scheduling and quality checks.' },
     ],
     related: ['deep-cleaning', 'move-in-move-out-cleaning', 'commercial-cleaning'],
   },

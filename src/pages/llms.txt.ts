@@ -3,6 +3,7 @@ import { SITE } from '@/config/site';
 import { services, serviceHref } from '@/data/services';
 import { areas, areaHref } from '@/data/areas';
 import { abs } from '@/lib/schema';
+import { guides, guideHref } from '@/data/guides';
 
 /** Generated from the site data so it never drifts from the pages. */
 export const GET: APIRoute = () => {
@@ -24,6 +25,9 @@ export const GET: APIRoute = () => {
     `- Main area: ${areas.filter((a) => a.core).map((a) => a.name).join(', ')}`,
     `- Also: ${areas.filter((a) => !a.core).map((a) => a.name).join(', ')}`,
     ...areas.filter((a) => a.page).map((a) => `- [Cleaning services in ${a.name}, NY](${abs(areaHref(a))})`),
+    '',
+    '## Guides (answers to common questions)',
+    ...guides.map((g) => `- [${g.h1}](${abs(guideHref(g))}): ${g.answer}`),
     '',
     '## Key pages',
     `- [Home](${abs('/')})`,

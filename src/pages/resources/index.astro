@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Photo from '@/components/Photo.astro';
+import Icon from '@/components/Icon.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { guides, guideHref } from '@/data/guides';
+import { SITE } from '@/config/site';
+
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Guides', href: '/resources/' }];
+const list = { '@type': 'ItemList', itemListElement: guides.map((g, i) => ({ '@type': 'ListItem', position: i + 1, name: g.h1, url: `${SITE.url}${guideHref(g)}` })) };
+---
+<BaseLayout
+  title="Cleaning Guides & Checklists | Krystal Clear Services"
+  description="Straight answers and checklists from a Long Island cleaning company: deep vs regular cleaning, move-out, post-construction and office cleaning."
+  path="/resources/"
+  breadcrumbs={crumbs.slice(1)}
+  schema={[list]}
+>
+  <PageHero crumbs={crumbs} label="Guides" h1="Cleaning guides and checklists" answer="Straight answers to the questions our clients ask most, with the same checklists Krystal Clear's team uses in Huntington and across Long Island." />
+  <section class="section">
+    <div class="wrap">
+      <ul class="gl">
+        {guides.map((g) => (
+          <li>
+            <a class="gl__card" href={guideHref(g)}>
+              <div class="gl__ph"><Photo slug={g.photo} alt="" sizes="(max-width: 860px) 92vw, 45vw" widths={[480, 720]} /></div>
+              <div class="gl__body">
+                <h2>{g.h1}</h2>
+                <p class="muted">{g.answer.split('. ')[0]}.</p>
+                <span class="link-arrow">Read the guide <Icon name="arrow" /></span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+<style>
+  .gl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .gl__card { display: grid; grid-template-rows: auto 1fr; height: 100%; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; color: var(--ink); text-decoration: none; transition: transform .4s var(--ease); }
+  .gl__card:hover { transform: translateY(-4px); color: var(--ink); }
+  .gl__ph { aspect-ratio: 16 / 9; overflow: hidden; }
+  .gl__ph :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .gl__body { display: grid; gap: 12px; padding: 26px; align-content: start; }
+  .gl__body h2 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); line-height: 1.1; }
+  @media (max-width: 860px) { .gl { grid-template-columns: 1fr; } }
+</style>

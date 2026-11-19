@@ -57,7 +57,7 @@ export const SITE = {
 } as const;
 
 export const ENV = {
-  /** Only true on the production deploy (see netlify.toml). */
+  /** Only true when the build env var SITE_INDEXABLE=true (Cloudflare → Settings → Build → Variables), set on launch day. */
   indexable: import.meta.env.SITE_INDEXABLE === 'true' || process.env.SITE_INDEXABLE === 'true',
   ga4Id: (import.meta.env.PUBLIC_GA4_ID || '') as string,
 };

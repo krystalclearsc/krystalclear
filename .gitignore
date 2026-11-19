@@ -8,3 +8,4 @@ dist/
 # local only
 recursos/
 .claude/
+.wrangler/

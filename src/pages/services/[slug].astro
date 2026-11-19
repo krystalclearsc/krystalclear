@@ -12,6 +12,7 @@ import { servicePages } from '@/data/service-pages';
 import { areas, areaHref } from '@/data/areas';
 import { abs, serviceNode, faqNode } from '@/lib/schema';
 import { photos } from '@/data/photos';
+import { guides, guideHref } from '@/data/guides';
 
 export function getStaticPaths() {
   return services.map((s) => ({ params: { slug: s.slug } }));
@@ -36,6 +37,7 @@ const steps = [
   { icon: 'spray', t: 'We clean', d: 'Our insured, background-checked crew follows the checklist on this page.' },
   { icon: 'sparkles', t: 'Quality check', d: 'Every service includes a quality check before we leave.' },
 ] as const;
+const guide = guides.find((x) => x.service === slug);
 const related = page.related.map((r) => services.find((s) => s.slug === r)!).filter(Boolean);
 ---
 <BaseLayout
@@ -144,6 +146,7 @@ const related = page.related.map((r) => services.find((s) => s.slug === r)!).fil
         <ul class="rel">
           {related.map((r) => (<li><a href={serviceHref(r)} class="rel__a"><span>{r.name}</span><Icon name="arrow-up-right" /></a></li>))}
         </ul>
+        {guide && (<p class="rel__guide"><span class="label">Guide</span><a href={guideHref(guide)}>{guide.h1}</a></p>)}
       </div>
     </div>
   </section>
@@ -208,6 +211,8 @@ const related = page.related.map((r) => services.find((s) => s.slug === r)!).fil
   .rel__a { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--line); font-family: var(--font-display); font-size: 1.6rem; color: var(--ink); text-decoration: none; }
   .rel__a :global(svg) { width: 22px; height: 22px; color: var(--steel-deep); transition: transform .3s var(--ease); }
   .rel__a:hover :global(svg) { transform: translate(3px, -3px); }
+  .rel__guide { display: grid; gap: 8px; margin-top: 26px; }
+  .rel__guide a { font-weight: 550; }
 
   @media (max-width: 980px) { .how__list { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 860px) {

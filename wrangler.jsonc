@@ -1,0 +1,13 @@
+{
+  // Cloudflare Workers (static assets). Build: `npm run build` -> ./dist, deploy: `npx wrangler deploy`
+  // Same setup as the Nekoblue site (see Notion SOP "Migrar dominio Namecheap + cPanel a Cloudflare").
+  "name": "krystalclear-website",
+  "compatibility_date": "2026-11-18",
+  "assets": {
+    "directory": "./dist",
+    // real 404 status + our custom 404 page
+    "not_found_handling": "404-page",
+    // /about -> /about/ (matches canonicals and sitemap)
+    "html_handling": "force-trailing-slash"
+  }
+}

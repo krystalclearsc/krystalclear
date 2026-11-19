@@ -52,6 +52,40 @@ export const areaPages: Record<string, AreaPage> = {
     ],
     nearby: ['huntington-station', 'smithtown', 'dix-hills', 'northport', 'deer-park'],
   },
+  melville: {
+    slug: 'melville',
+    title: 'House & Office Cleaning in Melville, NY | Krystal Clear',
+    description: `House cleaning and office cleaning in Melville, NY: recurring, deep, move-out and commercial cleaning by an insured local team. Call or text ${phone}.`,
+    h1: 'House cleaning and office cleaning in Melville, NY',
+    answer: 'Krystal Clear is a cleaning company serving Melville, NY, in the Town of Huntington: house cleaning and maid service for homes, plus commercial cleaning for offices, with recurring, deep, move-in/move-out and post-construction options.',
+    local: [
+      'Melville is part of the Town of Huntington, just south of our base in Huntington Station, so homes and offices here are within our regular service area.',
+      'Melville is also home to many offices along the Route 110 corridor. For businesses we offer janitorial-style commercial cleaning: restrooms, breakrooms, floors and workstations on your schedule.',
+    ],
+    faq: [
+      { q: 'Do you clean offices in Melville?', a: `Yes. We clean offices and office buildings in Melville. Call or text ${phone} with the size of the space and your hours.` },
+      { q: 'Do you offer house cleaning in Melville?', a: 'Yes: recurring house cleaning, deep cleaning, move-in/move-out and post-construction cleaning.' },
+      { q: 'How do I get a quote in Melville?', a: `Call or text ${phone} with your address and the service you need; the estimate is free.` },
+    ],
+    nearby: ['huntington-station', 'dix-hills', 'huntington', 'farmingdale', 'deer-park'],
+  },
+  smithtown: {
+    slug: 'smithtown',
+    title: 'House Cleaning Service in Smithtown, NY | Krystal Clear',
+    description: `House cleaning service in Smithtown, NY: weekly, biweekly or monthly cleaning, deep cleans and move-out cleaning by an insured team. Call ${phone}.`,
+    h1: 'House cleaning service in Smithtown, NY',
+    answer: 'Krystal Clear provides house cleaning service in Smithtown, NY, in Suffolk County: recurring cleaning by background-checked, insured house cleaners, plus deep cleaning, move-in/move-out, post-construction and office cleaning.',
+    local: [
+      'Smithtown borders Commack, one of our main areas, and we serve homes and businesses on the Smithtown side of our route from Huntington Station.',
+      'Whether you are looking for a cleaning lady for weekly upkeep or a one-time deep clean, the same checklist and the same insured crew come to your home.',
+    ],
+    faq: [
+      { q: 'Do you clean homes in Smithtown?', a: `Yes. Smithtown is part of our service area. Call or text ${phone} to confirm your address.` },
+      { q: 'How often can you come?', a: 'Weekly, every other week or monthly, or as a one-time deep clean.' },
+      { q: 'Are your cleaners insured and background-checked?', a: 'Yes. Every member of the team is background-checked and insured.' },
+    ],
+    nearby: ['commack', 'northport', 'huntington-station', 'dix-hills', 'huntington'],
+  },
   northport: {
     slug: 'northport',
     title: 'House Cleaning in Northport, NY | Krystal Clear Services',

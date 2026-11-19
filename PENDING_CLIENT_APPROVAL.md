@@ -18,4 +18,6 @@
 | 14 | Privacy policy | Dice que aún no hay analítica ni ads; actualizar al activarlos | Qué herramientas habrá en la web en vivo (GA4, Google Ads, Meta Pixel) |
 | 15 | Alfombras / ventanas / power washing | Las URLs viejas redirigen (301) a Deep cleaning o /services/ | Si Liza los confirma, se crean páginas propias y se cambian esas 301 |
 | 16 | Zonas sin página | Dix Hills, Melville, Syosset, Smithtown, etc. solo listadas | Crear página cuando Search Console o Liza muestren demanda real |
-| 17 | Indexación | `netlify.toml` tiene SITE_INDEXABLE="false" en producción | Cambiar a "true" el día que krystalclearny.com apunte a Netlify y probar las 301 en vivo |
+| 17 | Indexación | Build sin SITE_INDEXABLE = noindex | El día del lanzamiento: variable de build SITE_INDEXABLE=true en Cloudflare, redeploy y probar las 301 en vivo (docs/DEPLOY-CLOUDFLARE.md) |
+| 18 | Elwood | Sin página | Hay búsquedas ("house cleaning elwood"). ¿Lo atiende? Si sí, se crea la página |
+| 19 | Cuenta de Cloudflare | No existe aún | Crear la cuenta **propia de Krystal Clear** con el correo del negocio e invitar a Helice (docs/DEPLOY-CLOUDFLARE.md) |
