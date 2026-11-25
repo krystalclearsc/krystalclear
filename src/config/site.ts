@@ -11,7 +11,7 @@ export const SITE = {
   name: 'Krystal Clear Services',
   legalName: 'Krystal Clear Services, Corp.',
   shortName: 'Krystal Clear',
-  url: (import.meta.env.SITE as string | undefined)?.replace(/\/$/, '') ?? 'https://krystalclearny.com',
+  url: (import.meta.env.SITE as string | undefined)?.replace(/\/$/, '') ?? 'https://www.krystalclearny.com',
   locale: 'en-US',
   owner: 'Liza Chamorro',
   /**
