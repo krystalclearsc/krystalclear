@@ -1,0 +1,68 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Photo from '@/components/Photo.astro';
+import Icon from '@/components/Icon.astro';
+import AnimIcon from '@/components/AnimIcon.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { services, serviceHref } from '@/data/services';
+import { SITE } from '@/config/site';
+
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Services', href: '/services/' }];
+const icons = ['home', 'sparkles', 'box', 'hammer', 'building'] as const;
+const itemList = {
+  '@type': 'ItemList',
+  itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.name, url: `${SITE.url}${serviceHref(s)}` })),
+};
+---
+<BaseLayout
+  title="Cleaning Services on Long Island | Krystal Clear Services"
+  description={`House, deep, move-in/move-out, post-construction and commercial cleaning in Huntington and Long Island's North Shore. Free estimate: ${SITE.phone.display}.`}
+  path="/services/"
+  breadcrumbs={crumbs.slice(1)}
+  schema={[itemList]}
+>
+  <PageHero crumbs={crumbs} label="Services" h1="Cleaning services for Long Island homes and businesses" answer={`Krystal Clear offers five cleaning services in Huntington, Commack, Northport and nearby towns: recurring house cleaning, deep cleaning, move-in/move-out cleaning, post-construction cleaning and commercial office cleaning. Every estimate is free.`} photo="staircase" photoAlt="Two Krystal Clear cleaners dusting a staircase railing in a Long Island home" />
+
+  <section class="section hub cv" aria-label="All services">
+    <div class="wrap">
+      <ul class="hub__grid">
+        {services.map((s, i) => (
+          <li class:list={['hub__item', i === 0 && 'hub__item--wide']}>
+            <a href={serviceHref(s)} class="hub__card ai-host">
+              <div class="hub__photo"><Photo slug={s.photo} alt={s.photoAlt} sizes="(max-width: 860px) 92vw, 40vw" widths={[480, 720]} /></div>
+              <div class="hub__body">
+                <AnimIcon name={icons[i]} size={42} />
+                <span class="hub__tag">{s.audience}</span>
+                <h2 class="hub__name">{s.name}</h2>
+                <p class="muted">{s.summary}</p>
+                <span class="link-arrow">See what's included <Icon name="arrow" /></span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title="Not sure which service you need?" text="Call or text and tell us about your space. We'll recommend the right service and give you a free estimate." />
+</BaseLayout>
+
+<style>
+  .hub__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .hub__item--wide { grid-column: 1 / -1; }
+  .hub__card { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); height: 100%; border-radius: 26px; overflow: hidden; border: 1px solid var(--line); background: var(--white); color: var(--ink); text-decoration: none; transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
+  .hub__card:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -36px rgb(11 34 68 / 0.55); color: var(--ink); }
+  .hub__item--wide .hub__card { grid-template-columns: 1.2fr 1fr; background: var(--ice); }
+  .hub__photo { min-height: 260px; overflow: hidden; }
+  .hub__photo :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+  .hub__card:hover .hub__photo :global(img) { transform: scale(1.05); }
+  .hub__body { display: grid; gap: 10px; align-content: center; padding: 28px; }
+  .hub__tag { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--steel-deep); }
+  .hub__name { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+  @media (max-width: 860px) {
+    .hub__grid { grid-template-columns: 1fr; }
+    .hub__card, .hub__item--wide .hub__card { grid-template-columns: 1fr; }
+    .hub__photo { min-height: 200px; aspect-ratio: 16 / 10; }
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+/** Color-break call-to-action band (animated liquid gradient). Used at the end of inner pages. */
+import Icon from './Icon.astro';
+import AnimIcon from './AnimIcon.astro';
+import { SITE } from '@/config/site';
+interface Props { title?: string; text?: string }
+const { title = 'Get a clear, free estimate', text = "Call or text Liza's team. We'll ask a few questions about your space and give you a price before we start." } = Astro.props;
+---
+<section class="cta liquid" aria-labelledby="cta-title">
+  <div class="wrap cta__grid">
+    <div>
+      <p class="label">Free estimate</p>
+      <h2 id="cta-title">{title}</h2>
+      <p class="cta__text">{text}</p>
+      <div class="cta__btns">
+        <a class="btn btn--light" href={SITE.phone.href} data-track="call-cta"><Icon name="phone" />Call {SITE.phone.display}</a>
+        <a class="btn btn--outline-light" href={SITE.phone.sms} data-track="sms-cta"><Icon name="message" />Text us</a>
+      </div>
+    </div>
+    <ul class="cta__points">
+      <li class="ai-host"><AnimIcon name="phone" size={44} tone="light" /><span>Call or text, same number</span></li>
+      <li class="ai-host"><AnimIcon name="clipboard" size={44} tone="light" /><span>Free, clear estimate</span></li>
+      <li class="ai-host"><AnimIcon name="shield" size={44} tone="light" /><span>Insured and background-checked</span></li>
+    </ul>
+  </div>
+</section>
+<style>
+  .cta { padding-block: clamp(64px, 9vw, 120px); }
+  .cta__grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
+  .cta h2 { margin: 18px 0; }
+  .cta__text { font-size: 1.15rem; max-width: 34em; color: rgb(255 255 255 / 0.9); }
+  .cta__btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .cta__points { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .cta__points li { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border-radius: 18px; background: rgb(255 255 255 / 0.12); border: 1px solid rgb(255 255 255 / 0.22); font-weight: 550; }
+  @media (max-width: 860px) { .cta__grid { grid-template-columns: 1fr; } }
+</style>

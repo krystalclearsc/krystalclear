@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import { SITE } from '@/config/site';
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Privacy policy', href: '/privacy-policy/' }];
+const updated = '2026-11-13';
+---
+<BaseLayout title="Privacy Policy | Krystal Clear Services" description="How Krystal Clear Services handles the information you share when you call, text, email or send a cleaning request through our website." path="/privacy-policy/" breadcrumbs={crumbs.slice(1)}>
+  <PageHero crumbs={crumbs} label="Legal" h1="Privacy policy" answer="This page explains what information Krystal Clear Services receives when you contact us or request a cleaning estimate, and how we use it." updated={updated} />
+  <section class="section">
+    <div class="wrap legal">
+      <h2>Information you give us</h2>
+      <p>When you call, text, email or send a request through our online form, you may share your name, phone number, email, address and details about the space you want cleaned. We use this only to answer you, prepare an estimate and schedule and provide our services.</p>
+      <h2>Online request form</h2>
+      <p>Our request form is provided by Jobber, the scheduling system we use. Information you submit through it is stored in that system and handled under Jobber's own privacy policy.</p>
+      <h2>Website analytics and advertising</h2>
+      <p>This website does not currently use analytics or advertising cookies. If we add tools such as Google Analytics or Google Ads, we will list here what they collect and how to opt out before turning them on.</p>
+      <h2>Sharing</h2>
+      <p>We do not sell your personal information. We share it only with service providers that help us run the business (such as our scheduling system) or when required by law.</p>
+      <h2>Contact</h2>
+      <p>Questions about this policy: {SITE.legalName}, {SITE.baseCity}, NY · <a href={SITE.phone.href}>{SITE.phone.display}</a> · <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .legal { max-width: 760px; display: grid; gap: 14px; }
+  .legal h2 { font-size: 1.9rem; margin-top: 22px; }
+</style>

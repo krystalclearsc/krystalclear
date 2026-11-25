@@ -1,0 +1,119 @@
+---
+/** Floating capsule navigation. Phone is always one tap away. */
+import { Image } from 'astro:assets';
+import logo from '@/assets/brand/logo.png';
+import logoWhite from '@/assets/brand/logo-white.png';
+import Icon from './Icon.astro';
+import { SITE } from '@/config/site';
+import { services, serviceHref } from '@/data/services';
+
+const nav = [
+  { href: '/services/', label: 'Services' },
+  { href: '/service-areas/', label: 'Areas' },
+  { href: '/about/', label: 'About Liza' },
+  { href: '/#reviews', label: 'Reviews' },
+  { href: '/faq/', label: 'FAQ' },
+];
+/** overDark: the page starts with a dark full-bleed hero on phones (home). */
+interface Props { overDark?: boolean }
+const { overDark = false } = Astro.props;
+const path = Astro.url.pathname;
+---
+<div class="progress" data-progress aria-hidden="true"></div>
+<header class:list={['hdr', overDark && 'hdr--over-dark']} data-header>
+  <div class="hdr__capsule">
+    <a class="hdr__brand" href="/" aria-label={`${SITE.name} — home`}>
+      <Image src={logo} alt="" width={44} height={44} densities={[1, 2]} loading="eager" class="hdr__logo" />
+      {overDark && <Image src={logoWhite} alt="" width={46} height={42} densities={[1, 2]} loading="eager" class="hdr__logo-white" />}
+      <span class="hdr__name">Krystal <em>Clear</em></span>
+    </a>
+
+    <nav class="hdr__nav" aria-label="Main">
+      <ul>
+        {nav.map((n) => (
+          <li><a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <a class="btn hdr__call" href={SITE.phone.href} data-track="call-header" aria-label={`Call ${SITE.phone.display}`}>
+      <Icon name="phone" /><span>{SITE.phone.display}</span>
+    </a>
+
+    <button class="hdr__toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+      <Icon name="menu" class="i-open" /><Icon name="close" class="i-close" />
+      <span class="sr-only">Menu</span>
+    </button>
+  </div>
+
+  <div class="hdr__panel" id="mobile-menu" data-menu hidden>
+    <p class="label">Services</p>
+    <ul class="hdr__svc">
+      {services.map((s) => <li><a href={serviceHref(s)}>{s.short}</a></li>)}
+    </ul>
+    <ul class="hdr__links">
+      {nav.filter((n) => n.label !== 'Services').map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+    </ul>
+    <div class="hdr__ctas">
+      <a class="btn" href={SITE.phone.href} data-track="call-menu"><Icon name="phone" />Call {SITE.phone.display}</a>
+      <a class="btn btn--ghost" href={SITE.phone.sms} data-track="sms-menu"><Icon name="message" />Text us</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hdr { position: fixed; inset: 14px 0 auto; z-index: 50; padding-inline: 12px; pointer-events: none; }
+  .hdr__capsule {
+    pointer-events: auto; max-width: 1120px; margin-inline: auto; height: 62px;
+    display: flex; align-items: center; gap: 8px; padding: 0 8px 0 10px;
+    background: rgb(255 255 255 / 0.82); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4);
+    border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 10px 30px -18px rgb(11 34 68 / 0.45);
+    transition: box-shadow .3s var(--ease), background-color .3s var(--ease);
+  }
+  .hdr.is-scrolled .hdr__capsule { background: rgb(255 255 255 / 0.94); box-shadow: 0 14px 38px -20px rgb(11 34 68 / 0.55); }
+  .hdr__brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); margin-right: auto; }
+  .hdr__brand :global(.hdr__logo) { width: 44px; height: 44px; }
+  .hdr__name { font-family: var(--font-display); font-size: 1.45rem; line-height: 1; white-space: nowrap; }
+  .hdr__nav ul { display: flex; gap: 2px; list-style: none; margin: 0; padding: 0; }
+  .hdr__nav a { display: block; padding: 10px 14px; border-radius: 999px; color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: background-color .2s; }
+  .hdr__nav a:hover, .hdr__nav a[aria-current='page'] { background: var(--ice); }
+  .hdr__call { min-height: 46px; padding: 0 18px; margin-left: 8px; }
+  .hdr__toggle { display: none; width: 46px; height: 46px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--white); color: var(--ink); align-items: center; justify-content: center; cursor: pointer; }
+  .hdr__toggle :global(svg) { width: 22px; height: 22px; }
+  .hdr__toggle :global(.i-close), .hdr__toggle[aria-expanded='true'] :global(.i-open) { display: none; }
+  .hdr__toggle[aria-expanded='true'] :global(.i-close) { display: block; }
+  .hdr__panel {
+    pointer-events: auto; max-width: 1120px; margin: 8px auto 0; padding: 22px 22px 24px;
+    background: var(--white); border: 1px solid var(--line); border-radius: 24px; box-shadow: 0 24px 50px -24px rgb(11 34 68 / 0.5);
+  }
+  .hdr__panel ul { list-style: none; margin: 0; padding: 0; }
+  .hdr__svc { margin: 10px 0 14px !important; }
+  .hdr__svc a { display: block; padding: 8px 0; font-family: var(--font-display); font-size: 1.6rem; line-height: 1.15; color: var(--ink); text-decoration: none; }
+  .hdr__links { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 14px 0 !important; border-top: 1px solid var(--line) !important; }
+  .hdr__links a { display: inline-block; padding: 8px 0; color: var(--ink); font-weight: 500; }
+  .hdr__ctas { display: grid; gap: 10px; }
+
+  @media (max-width: 1000px) {
+    .hdr__nav { display: none; }
+    .hdr__toggle { display: inline-flex; }
+  }
+  @media (max-width: 560px) {
+    .hdr { inset-block-start: 10px; padding-inline: 10px; }
+    .hdr__call span { display: none; }
+    .hdr__call { width: 46px; padding: 0; margin-left: 0; }
+    .hdr__name { font-size: 1.3rem; }
+  }
+
+  /* Phones on the home page: no capsule, no wordmark — just the white K over the video, then a solid capsule after scrolling. */
+  @media (max-width: 760px) {
+    .hdr--over-dark:not(.is-scrolled) .hdr__capsule { background: transparent; border-color: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .hdr--over-dark:not(.is-scrolled) .hdr__name { display: none; }
+    .hdr--over-dark:not(.is-scrolled) :global(.hdr__logo) { display: none; }
+    .hdr--over-dark:not(.is-scrolled) .hdr__call { background: rgb(255 255 255 / 0.16); border-color: rgb(255 255 255 / 0.35); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+    .hdr--over-dark:not(.is-scrolled) .hdr__toggle { background: rgb(255 255 255 / 0.16); border-color: rgb(255 255 255 / 0.35); color: var(--white); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+    .hdr--over-dark.is-scrolled :global(.hdr__logo-white) { display: none; }
+    .hdr__name { display: none; }
+  }
+  :global(.hdr__logo-white) { display: none; width: 46px; height: 42px; }
+  @media (max-width: 760px) { .hdr--over-dark:not(.is-scrolled) :global(.hdr__logo-white) { display: block; } }
+</style>

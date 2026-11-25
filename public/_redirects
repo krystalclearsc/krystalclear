@@ -1,0 +1,37 @@
+# 301s from the old WordPress site (krystalclearny.com, audited 2026-11-12).
+# Each old URL goes to its closest new equivalent — never everything to the home.
+/kristal-clear                 /about/                                  301
+/kristal-clear/                /about/                                  301
+/booking                       /contact/                                301
+/booking/                      /contact/                                301
+/residential-cleaning          /services/house-cleaning/                301
+/residential-cleaning/         /services/house-cleaning/                301
+/commercial-cleaning           /services/commercial-cleaning/           301
+/commercial-cleaning/          /services/commercial-cleaning/           301
+/post-construction-cleaning    /services/post-construction-cleaning/    301
+/post-construction-cleaning/   /services/post-construction-cleaning/    301
+/move-in-move-out              /services/move-in-move-out-cleaning/     301
+/move-in-move-out/             /services/move-in-move-out-cleaning/     301
+/deep-cleaning                 /services/deep-cleaning/                 301
+/deep-cleaning/                /services/deep-cleaning/                 301
+# Carpet and window cleaning are covered inside deep cleaning until Liza confirms them as separate services.
+/carpert-cleaning              /services/deep-cleaning/                 301
+/carpert-cleaning/             /services/deep-cleaning/                 301
+/windows-cleaning              /services/deep-cleaning/                 301
+/windows-cleaning/             /services/deep-cleaning/                 301
+/power-washing                 /services/                               301
+/power-washing/                /services/                               301
+/coming-soon                   /                                        301
+/coming-soon/                  /                                        301
+/author/*                      /about/                                  301
+/elementor-hf/*                /                                        301
+/feed                          /                                        301
+/feed/                         /                                        301
+/comments/feed/                /                                        301
+/wp-sitemap.xml                /sitemap-index.xml                       301
+/wp-sitemap-*                  /sitemap-index.xml                       301
+/sitemap.xml                   /sitemap-index.xml                       301
+/sitemap_index.xml             /sitemap-index.xml                       301
+/wp-admin/*                    /                                        301
+/wp-login.php                  /                                        301
+/xmlrpc.php                    /                                        301

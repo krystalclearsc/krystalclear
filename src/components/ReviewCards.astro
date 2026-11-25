@@ -1,0 +1,38 @@
+---
+/** A few real Google reviews as static Google-style cards (text only, never schema). */
+import GoogleG from './GoogleG.astro';
+import Stars from './Stars.astro';
+import { SITE } from '@/config/site';
+import { reviews } from '@/data/reviews';
+interface Props { names?: string[]; count?: number }
+const { names, count = 3 } = Astro.props;
+const list = names ? reviews.filter((r) => names.includes(r.name)) : reviews.slice(0, count);
+const avatar = ['#1A73E8', '#D93025', '#188038', '#E37400', '#9334E6'];
+---
+<div class="rc">
+  <div class="rc__head">
+    <GoogleG size={26} /><strong>{SITE.googleRating.value}</strong><Stars size={18} />
+    <a href={SITE.listings.google} rel="noopener">{SITE.googleRating.count} reviews on Google</a>
+  </div>
+  <ul class="rc__list">
+    {list.map((r, i) => (
+      <li class="rc__card">
+        <div class="rc__top"><span class="rc__av" style={`background:${avatar[i % avatar.length]}`} aria-hidden="true">{r.name[0]}</span><span><strong>{r.name}</strong><small>{r.tag ?? 'Google review'}</small></span><GoogleG size={18} /></div>
+        <Stars size={15} />
+        <p>{r.text}</p>
+      </li>
+    ))}
+  </ul>
+</div>
+<style>
+  .rc__head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 1rem; }
+  .rc__head strong { font-size: 1.6rem; font-weight: 500; }
+  .rc__head a { color: #1765cc; font-weight: 550; }
+  .rc__list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
+  .rc__card { display: grid; gap: 10px; align-content: start; padding: 20px 22px; background: #fff; border: 1px solid #dadce0; border-radius: 16px; box-shadow: 0 1px 2px rgb(60 64 67 / 0.12); }
+  .rc__top { display: grid; grid-template-columns: 40px minmax(0, 1fr) 18px; gap: 12px; align-items: center; }
+  .rc__top strong { display: block; font-size: 0.95rem; color: #202124; }
+  .rc__top small { font-size: 0.8rem; color: #5f6368; }
+  .rc__av { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 600; }
+  .rc__card p { font-size: 0.95rem; line-height: 1.55; color: #3c4043; }
+</style>

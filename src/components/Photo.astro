@@ -1,0 +1,36 @@
+---
+/** Responsive AVIF/WebP picture for a curated real photo. */
+import { Picture } from 'astro:assets';
+import { photos, type PhotoSlug } from '@/data/photos';
+
+interface Props {
+  slug: PhotoSlug;
+  alt: string;
+  sizes: string;
+  widths?: number[];
+  priority?: boolean;
+  class?: string;
+  position?: string;
+  quality?: number;
+  /** Force eager loading without raising fetch priority (e.g. images swapped by JS). */
+  eager?: boolean;
+}
+const { slug, alt, sizes, widths = [360, 540, 720, 960], priority = false, class: cls, position, quality = 68, eager = false } = Astro.props;
+const src = photos[slug];
+const usable = widths.filter((w) => w <= src.width);
+if (!usable.length) usable.push(src.width);
+---
+<Picture
+  src={src}
+  alt={alt}
+  formats={['avif', 'webp']}
+  fallbackFormat="jpg"
+  widths={usable}
+  sizes={sizes}
+  quality={quality}
+  loading={priority || eager ? 'eager' : 'lazy'}
+  decoding={priority ? 'sync' : 'async'}
+  fetchpriority={priority ? 'high' : undefined}
+  class={cls}
+  style={position ? `object-position:${position}` : undefined}
+/>

@@ -1,0 +1,32 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+import AnimIcon from '@/components/AnimIcon.astro';
+import { SITE } from '@/config/site';
+import { services, serviceHref } from '@/data/services';
+---
+<BaseLayout title="Page not found | Krystal Clear Services" description="This page doesn't exist. Find our cleaning services or call Krystal Clear." path="/404/" noindex>
+  <section class="nf liquid">
+    <div class="wrap nf__inner">
+      <AnimIcon name="spray" size={72} tone="light" />
+      <p class="label">Error 404</p>
+      <h1>This page has been <em>wiped clean.</em></h1>
+      <p class="nf__text">It may have moved when we redesigned the site. Try one of these:</p>
+      <ul class="nf__links">
+        <li><a href="/">Home</a></li>
+        {services.map((s) => <li><a href={serviceHref(s)}>{s.name}</a></li>)}
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+      <a class="btn btn--light" href={SITE.phone.href}><Icon name="phone" />Call {SITE.phone.display}</a>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .nf { min-height: 80vh; display: grid; align-items: center; padding: calc(var(--header-h) + 60px) 0 80px; }
+  .nf__inner { display: grid; gap: 18px; justify-items: start; }
+  .nf h1 { font-size: clamp(2.8rem, 7vw, 5rem); }
+  .nf__text { font-size: 1.15rem; }
+  .nf__links { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .nf__links a { display: inline-block; padding: 9px 16px; border-radius: 999px; background: rgb(255 255 255 / 0.14); border: 1px solid rgb(255 255 255 / 0.3); color: var(--white); text-decoration: none; }
+  .nf__links a:hover { background: rgb(255 255 255 / 0.25); color: var(--white); }
+</style>
